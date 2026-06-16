@@ -15,20 +15,20 @@
 先试用一下
 
 ```bash
-npx difit  # 在 WebUI 中查看最新提交的差异
+npx @s4na/difit  # 在 WebUI 中查看最新提交的差异
 ```
 
 安装后使用
 
 ```bash
-npm install -g difit
+npm install -g @s4na/difit
 difit  # 在 WebUI 中查看最新提交的差异
 ```
 
 使其可供 AI 代理使用
 
 ```bash
-npx skills add yoshiko-pg/difit # 为代理添加 Skills
+npx skills add s4na/difit # 为代理添加 Skills
 ```
 
 安装后包含的主要 Skill：
@@ -181,7 +181,7 @@ src/components/Button.tsx:L42-L48   # 此行自动添加
 你可以通过以下命令安装这些 Skill，以便从 AI 代理中使用 difit：
 
 ```sh
-npx skills add yoshiko-pg/difit
+npx skills add s4na/difit
 ```
 
 安装后包含的主要 Skill：

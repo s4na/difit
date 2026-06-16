@@ -1,7 +1,7 @@
 {
-  "name": "difit",
-  "version": "5.0.2",
-  "description": "A lightweight command-line tool that spins up a local web server to display Git commit diffs in a GitHub-like Files changed view",
+  "name": "@s4na/difit",
+  "version": "5.1.0",
+  "description": "A lightweight command-line tool that spins up a local web server to display Git commit diffs in a GitHub-like Files changed view (fork with rich preview support)",
   "keywords": [
     "cli",
     "code-review",
@@ -13,15 +13,18 @@
     "review",
     "tailwind"
   ],
-  "homepage": "https://github.com/yoshiko-pg/difit",
+  "homepage": "https://github.com/s4na/difit",
   "bugs": {
-    "url": "https://github.com/yoshiko-pg/difit/issues"
+    "url": "https://github.com/s4na/difit/issues"
   },
   "license": "MIT",
-  "author": "yoshiko-pg",
+  "author": "s4na",
+  "contributors": [
+    "yoshiko-pg (original author)"
+  ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/yoshiko-pg/difit.git"
+    "url": "https://github.com/s4na/difit.git"
   },
   "bin": {
     "difit": "./dist/cli/index.js"

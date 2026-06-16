@@ -1,8 +1,10 @@
 import type { DiffFile } from '../../types/diff';
+import { isHtmlFile } from '../utils/htmlUtils';
 import { isImageFile } from '../utils/imageUtils';
 import { isMarkdownFile } from '../utils/markdownUtils';
 import { isNotebookFile } from '../utils/notebookUtils';
 
+import { HtmlDiffViewer } from './HtmlDiffViewer';
 import { ImageDiffViewer } from './ImageDiffViewer';
 import { MarkdownDiffViewer } from './MarkdownDiffViewer';
 import { NotebookDiffViewer } from './NotebookDiffViewer';
@@ -20,6 +22,12 @@ const viewers: DiffViewerRegistration[] = [
     id: 'markdown',
     match: (file) => isMarkdownFile(file.path),
     Component: MarkdownDiffViewer,
+    canExpandHiddenLines: (file) => file.status !== 'added' && file.status !== 'deleted',
+  },
+  {
+    id: 'html',
+    match: (file) => isHtmlFile(file.path),
+    Component: HtmlDiffViewer,
     canExpandHiddenLines: (file) => file.status !== 'added' && file.status !== 'deleted',
   },
   {

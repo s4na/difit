@@ -15,20 +15,20 @@
 まず試す
 
 ```bash
-npx difit  # 最新コミットのdiffをWebUIで表示
+npx @s4na/difit  # 最新コミットのdiffをWebUIで表示
 ```
 
 インストールして使う
 
 ```bash
-npm install -g difit
+npm install -g @s4na/difit
 difit  # 最新コミットのdiffをWebUIで表示
 ```
 
 AIエージェントから使えるようにする
 
 ```bash
-npx skills add yoshiko-pg/difit # エージェントにスキル群を追加
+npx skills add s4na/difit # エージェントにスキル群を追加
 ```
 
 インストールされる主な skill:
@@ -181,7 +181,7 @@ src/components/Button.tsx:L42-L48   # この行が自動的に追加されます
 AIエージェントから difit を使うための skill 群を以下でインストールできます。
 
 ```sh
-npx skills add yoshiko-pg/difit
+npx skills add s4na/difit
 ```
 
 インストールされる主な skill:
