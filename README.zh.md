@@ -10,6 +10,8 @@
 
 **difit** 是一个让你使用 GitHub 风格查看器查看和审查本地 git 差异的 CLI 工具。除了清晰的视觉效果外，评论还可以作为 AI 提示进行复制。AI 时代的本地代码审查工具！
 
+此 fork 基于 [yoshiko-pg/difit](https://github.com/yoshiko-pg/difit)，当前仓库为 `s4na/difit`。
+
 ## ⚡ 快速开始
 
 先试用一下
@@ -197,7 +199,7 @@ npx skills add s4na/difit
 
 - **Diff**：标准代码 diff 视图（默认）
 - **Diff Preview**：根据 diff chunk 重建 after 侧内容后的渲染预览
-- **Full Preview**：来自目标 commit 的完整文件渲染预览
+- **Full Preview**：来自 diff 相关 side 的完整文件渲染预览
 
 ### Markdown 预览
 
@@ -205,7 +207,7 @@ Markdown 文件会以完整 GFM（GitHub Flavored Markdown）支持进行渲染�
 
 ### HTML 预览
 
-HTML 文件会在 sandboxed iframe 中渲染；出于安全考虑，不允许脚本执行或 same-origin access。
+HTML 文件会在 sandboxed iframe 中渲染；出于安全考虑，不允许脚本执行、same-origin access 或外部 subresource 加载。
 
 ## 🎨 语法高亮语言
 
@@ -294,4 +296,4 @@ pnpm run format
 
 ## 📄 许可证
 
-MIT
+MIT - Originally created by [yoshiko-pg](https://github.com/yoshiko-pg/difit)

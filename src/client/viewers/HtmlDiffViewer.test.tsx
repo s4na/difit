@@ -66,6 +66,13 @@ const renderViewer = (overrides: Partial<DiffViewerBodyProps> = {}) =>
     </WordHighlightProvider>,
   );
 
+const expectPreviewCsp = (srcdoc: string | null | undefined) => {
+  expect(srcdoc).toContain('Content-Security-Policy');
+  expect(srcdoc).toContain(`default-src 'none'`);
+  expect(srcdoc).toContain(`style-src 'unsafe-inline'`);
+  expect(srcdoc).toContain('img-src data: blob:');
+};
+
 describe('HtmlDiffViewer', () => {
   beforeEach(() => {
     vi.clearAllMocks();
@@ -121,14 +128,17 @@ describe('HtmlDiffViewer', () => {
     expect(iframe).toBeDefined();
     expect(iframe?.getAttribute('sandbox')).toBe('');
     expect(iframe?.getAttribute('srcdoc')).toContain('<h1>Hello</h1>');
+    expectPreviewCsp(iframe?.getAttribute('srcdoc'));
     expect(iframe?.getAttribute('srcdoc')).not.toContain('difit-iframe-height');
     expect(iframe?.getAttribute('title')).toBe('HTML Preview');
   });
 
   it('uses prefetched content when switching to full-preview mode', async () => {
+    const fullHtml =
+      '<!doctype html><html><head><title>Full</title></head><body>Full HTML</body></html>';
     (global.fetch as any).mockResolvedValue({
       ok: true,
-      text: async () => '<main>Full HTML</main>',
+      text: async () => fullHtml,
     });
     const user = userEvent.setup();
     const { container } = renderViewer();
@@ -138,7 +148,11 @@ describe('HtmlDiffViewer', () => {
 
     await waitFor(() => {
       const iframe = container.querySelector('iframe');
-      expect(iframe?.getAttribute('srcdoc')).toBe('<main>Full HTML</main>');
+      const srcdoc = iframe?.getAttribute('srcdoc');
+      expect(srcdoc).toContain('<head><meta http-equiv="Content-Security-Policy"');
+      expect(srcdoc).toContain('<title>Full</title>');
+      expect(srcdoc).toContain('<body>Full HTML</body>');
+      expectPreviewCsp(srcdoc);
       expect(iframe?.getAttribute('sandbox')).toBe('');
     });
     expect(global.fetch).toHaveBeenCalledWith('/api/blob/index.html?ref=def456');

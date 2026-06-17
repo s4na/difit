@@ -10,6 +10,8 @@
 
 **difit**은 GitHub 스타일 뷰어로 로컬 git diff를 보고 검토할 수 있는 CLI 도구입니다. 깔끔한 시각적 효과와 함께 코멘트를 AI용 프롬프트로 복사할 수 있습니다. AI 시대의 로컬 코드 리뷰 도구!
 
+이 fork는 [yoshiko-pg/difit](https://github.com/yoshiko-pg/difit)을 기반으로 한 `s4na/difit`입니다.
+
 ## ⚡ 빠른 시작
 
 먼저 시도해 보세요
@@ -197,7 +199,7 @@ npx skills add s4na/difit
 
 - **Diff**: 기본 코드 diff 보기 (기본값)
 - **Diff Preview**: diff chunk에서 재구성한 after 측 콘텐츠의 렌더링 미리보기
-- **Full Preview**: 대상 commit의 전체 파일 렌더링 미리보기
+- **Full Preview**: diff의 관련 side에서 가져온 전체 파일 렌더링 미리보기
 
 ### Markdown 미리보기
 
@@ -205,7 +207,7 @@ Markdown 파일은 표, 작업 목록, 취소선, 구문 강조 코드 블록, M
 
 ### HTML 미리보기
 
-HTML 파일은 보안을 위해 script 실행과 same-origin access를 허용하지 않는 sandboxed iframe에서 렌더링됩니다.
+HTML 파일은 보안을 위해 script 실행, same-origin access, 외부 subresource 로드를 허용하지 않는 sandboxed iframe에서 렌더링됩니다.
 
 ## 🎨 구문 강조 언어
 
@@ -294,4 +296,4 @@ pnpm run format
 
 ## 📄 라이선스
 
-MIT
+MIT - Originally created by [yoshiko-pg](https://github.com/yoshiko-pg/difit)

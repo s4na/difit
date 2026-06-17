@@ -203,8 +203,8 @@ After code edits or automated review, the agent can start the difit server with 
 For `.md`, `.markdown`, `.html`, and `.htm` files, difit provides rich preview modes in addition to the standard code diff:
 
 - **Diff**: Standard code diff view (default)
-- **Diff Preview**: Rendered preview of the after-side content reconstructed from the diff chunks, with change indicators
-- **Full Preview**: Complete rendered file from the target commit
+- **Diff Preview**: Rendered preview of the after-side content reconstructed from the diff chunks
+- **Full Preview**: Complete rendered file from the relevant side of the diff
 
 ### Markdown Preview
 
@@ -212,7 +212,7 @@ Markdown files are rendered with full GFM (GitHub Flavored Markdown) support inc
 
 ### HTML Preview
 
-HTML files are rendered in a sandboxed iframe without script execution or same-origin access for security.
+HTML files are rendered in a sandboxed iframe without script execution, same-origin access, or external subresource loading for security.
 
 ## 🎨 Syntax Highlighting Languages
 

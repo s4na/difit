@@ -10,6 +10,8 @@
 
 **difit**は、ローカルのgit上にある差分をGitHub風のビューアで閲覧・レビューできるCLIツールです。見やすい表示に加え、コメントはAIへのプロンプトとしてコピーできます。AI時代のローカルコードレビューツール！
 
+この fork は [yoshiko-pg/difit](https://github.com/yoshiko-pg/difit) を基にした `s4na/difit` です。
+
 ## ⚡ クイックスタート
 
 まず試す
@@ -197,7 +199,7 @@ npx skills add s4na/difit
 
 - **Diff**：通常のコード diff 表示（デフォルト）
 - **Diff Preview**：diff chunk から再構築した after 側コンテンツのレンダリングプレビュー
-- **Full Preview**：対象 commit の完全なファイルをレンダリングしたプレビュー
+- **Full Preview**：diff の該当 side から取得した完全なファイルのレンダリングプレビュー
 
 ### Markdown プレビュー
 
@@ -205,7 +207,7 @@ Markdown ファイルは、テーブル、タスクリスト、取り消し線�
 
 ### HTML プレビュー
 
-HTML ファイルは、セキュリティのため script 実行と same-origin access を許可しない sandboxed iframe でレンダリングされます。
+HTML ファイルは、セキュリティのため script 実行、same-origin access、外部 subresource 読み込みを許可しない sandboxed iframe でレンダリングされます。
 
 ## 🎨 シンタックスハイライト対応言語
 
@@ -294,4 +296,4 @@ pnpm run format
 
 ## 📄 ライセンス
 
-MIT
+MIT - Originally created by [yoshiko-pg](https://github.com/yoshiko-pg/difit)

@@ -20,9 +20,20 @@ const buildAfterContent = (chunks: MergedChunk[]): string => {
   return lines.join('\n');
 };
 
+const PREVIEW_CSP =
+  `<meta http-equiv="Content-Security-Policy" ` +
+  `content="default-src 'none'; style-src 'unsafe-inline'; img-src data: blob:;">`;
+
+const wrapHtmlForPreview = (html: string): string => {
+  if (/<head[\s>]/i.test(html)) {
+    return html.replace(/<head([^>]*)>/i, `<head$1>${PREVIEW_CSP}`);
+  }
+  return `${PREVIEW_CSP}${html}`;
+};
+
 const HtmlIframePreview = ({ html }: { html: string }) => (
   <iframe
-    srcDoc={html}
+    srcDoc={wrapHtmlForPreview(html)}
     sandbox=""
     referrerPolicy="no-referrer"
     className="w-full border-0 bg-white rounded"
