@@ -17,13 +17,13 @@
 먼저 시도해 보세요
 
 ```bash
-npx @s4na/difit  # WebUI에서 최신 커밋 diff 보기
+npx github:s4na/difit  # WebUI에서 최신 커밋 diff 보기
 ```
 
 설치하여 사용
 
 ```bash
-npm install -g @s4na/difit
+npm install -g github:s4na/difit
 difit  # WebUI에서 최신 커밋 diff 보기
 ```
 

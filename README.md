@@ -3,7 +3,6 @@
 </h1>
 
 <p align="center">
-  <a href="https://www.npmjs.com/package/@s4na/difit"><img src="https://img.shields.io/npm/v/@s4na/difit.svg" alt="npm version"></a>
   <a href="https://github.com/s4na/difit/actions/workflows/pr.yml"><img src="https://github.com/s4na/difit/actions/workflows/pr.yml/badge.svg" alt="CI"></a>
 </p>
 
@@ -22,13 +21,13 @@
 Try it first
 
 ```bash
-npx @s4na/difit  # View the latest commit diff in WebUI
+npx github:s4na/difit  # View the latest commit diff in WebUI
 ```
 
 Install and use
 
 ```bash
-npm install -g @s4na/difit
+npm install -g github:s4na/difit
 difit  # View the latest commit diff in WebUI
 ```
 

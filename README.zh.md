@@ -17,13 +17,13 @@
 先试用一下
 
 ```bash
-npx @s4na/difit  # 在 WebUI 中查看最新提交的差异
+npx github:s4na/difit  # 在 WebUI 中查看最新提交的差异
 ```
 
 安装后使用
 
 ```bash
-npm install -g @s4na/difit
+npm install -g github:s4na/difit
 difit  # 在 WebUI 中查看最新提交的差异
 ```
 

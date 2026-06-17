@@ -17,13 +17,13 @@
 まず試す
 
 ```bash
-npx @s4na/difit  # 最新コミットのdiffをWebUIで表示
+npx github:s4na/difit  # 最新コミットのdiffをWebUIで表示
 ```
 
 インストールして使う
 
 ```bash
-npm install -g @s4na/difit
+npm install -g github:s4na/difit
 difit  # 最新コミットのdiffをWebUIで表示
 ```
 
