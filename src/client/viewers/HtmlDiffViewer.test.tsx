@@ -1,6 +1,6 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import type { DiffFile } from '../../types/diff';
 import { WordHighlightProvider } from '../contexts/WordHighlightContext';
@@ -67,6 +67,15 @@ const renderViewer = (overrides: Partial<DiffViewerBodyProps> = {}) =>
   );
 
 describe('HtmlDiffViewer', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+    (global.fetch as any).mockResolvedValue({
+      ok: false,
+      statusText: 'Not Found',
+      text: async () => '',
+    });
+  });
+
   it('renders with preview mode tabs', () => {
     renderViewer();
     expect(screen.getByTitle('Code Diff')).toBeDefined();
@@ -99,7 +108,7 @@ describe('HtmlDiffViewer', () => {
     expect(screen.getByText('No HTML content to preview.')).toBeDefined();
   });
 
-  it('renders iframe in diff-preview mode', async () => {
+  it('renders script-disabled iframe in diff-preview mode', async () => {
     const user = userEvent.setup();
     const { container } = render(
       <WordHighlightProvider>
@@ -110,12 +119,37 @@ describe('HtmlDiffViewer', () => {
     await user.click(screen.getByTitle('Diff Preview'));
     const iframe = container.querySelector('iframe');
     expect(iframe).toBeDefined();
-    expect(iframe?.getAttribute('sandbox')).toBe('allow-scripts');
+    expect(iframe?.getAttribute('sandbox')).toBe('');
+    expect(iframe?.getAttribute('srcdoc')).toContain('<h1>Hello</h1>');
+    expect(iframe?.getAttribute('srcdoc')).not.toContain('difit-iframe-height');
     expect(iframe?.getAttribute('title')).toBe('HTML Preview');
   });
 
-  it('does not show full preview tab when content not loaded', () => {
+  it('uses prefetched content when switching to full-preview mode', async () => {
+    (global.fetch as any).mockResolvedValue({
+      ok: true,
+      text: async () => '<main>Full HTML</main>',
+    });
+    const user = userEvent.setup();
+    const { container } = renderViewer();
+
+    const fullPreviewButton = await screen.findByTitle('Full Preview');
+    await user.click(fullPreviewButton);
+
+    await waitFor(() => {
+      const iframe = container.querySelector('iframe');
+      expect(iframe?.getAttribute('srcdoc')).toBe('<main>Full HTML</main>');
+      expect(iframe?.getAttribute('sandbox')).toBe('');
+    });
+    expect(global.fetch).toHaveBeenCalledWith('/api/blob/index.html?ref=def456');
+    expect(global.fetch).toHaveBeenCalledTimes(1);
+  });
+
+  it('does not show full preview tab when content fails to load', async () => {
     renderViewer();
+    await waitFor(() => {
+      expect(global.fetch).toHaveBeenCalledTimes(1);
+    });
     expect(screen.queryByTitle('Full Preview')).toBeNull();
   });
 });

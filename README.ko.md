@@ -191,6 +191,22 @@ npx skills add s4na/difit
 
 코드 수정 후나 자동 리뷰 시, 목적에 맞는 Skill로 difit 서버를 실행할 수 있습니다.
 
+## 👁️ 리치 미리보기 (Markdown & HTML)
+
+`.md`, `.markdown`, `.html`, `.htm` 파일에서는 일반 코드 diff 외에도 리치 미리보기 모드를 사용할 수 있습니다:
+
+- **Diff**: 기본 코드 diff 보기 (기본값)
+- **Diff Preview**: diff chunk에서 재구성한 after 측 콘텐츠의 렌더링 미리보기
+- **Full Preview**: 대상 commit의 전체 파일 렌더링 미리보기
+
+### Markdown 미리보기
+
+Markdown 파일은 표, 작업 목록, 취소선, 구문 강조 코드 블록, Mermaid 다이어그램을 포함한 GFM(GitHub Flavored Markdown)으로 렌더링됩니다.
+
+### HTML 미리보기
+
+HTML 파일은 보안을 위해 script 실행과 same-origin access를 허용하지 않는 sandboxed iframe에서 렌더링됩니다.
+
 ## 🎨 구문 강조 언어
 
 - **JavaScript/TypeScript**: `.js`, `.jsx`, `.ts`, `.tsx`
@@ -266,6 +282,7 @@ pnpm run format
 - **프론트엔드**: React 18 + TypeScript + Vite
 - **스타일링**: GitHub과 유사한 다크 테마를 갖춘 Tailwind CSS v4
 - **구문 강조**: 동적 언어 로딩을 갖춘 Prism.js
+- **리치 미리보기**: Markdown은 react-markdown + remark-gfm, HTML은 script가 비활성화된 sandboxed iframe
 - **테스트**: 동일 위치에 배치된 테스트 파일을 사용하는 Vitest 단위 테스트
 - **품질**: oxlint, oxfmt, lefthook 사전 커밋 훅
 

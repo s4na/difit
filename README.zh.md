@@ -191,6 +191,22 @@ npx skills add s4na/difit
 
 在代码修改后或自动审查时，代理可以根据目的使用对应的 Skill 来启动 difit 服务器。
 
+## 👁️ 富预览（Markdown & HTML）
+
+对于 `.md`、`.markdown`、`.html` 和 `.htm` 文件，difit 除了标准代码 diff 外还提供富预览模式：
+
+- **Diff**：标准代码 diff 视图（默认）
+- **Diff Preview**：根据 diff chunk 重建 after 侧内容后的渲染预览
+- **Full Preview**：来自目标 commit 的完整文件渲染预览
+
+### Markdown 预览
+
+Markdown 文件会以完整 GFM（GitHub Flavored Markdown）支持进行渲染，包括表格、任务列表、删除线、带语法高亮的代码块和 Mermaid 图。
+
+### HTML 预览
+
+HTML 文件会在 sandboxed iframe 中渲染；出于安全考虑，不允许脚本执行或 same-origin access。
+
 ## 🎨 语法高亮语言
 
 - **JavaScript/TypeScript**：`.js`, `.jsx`, `.ts`, `.tsx`
@@ -266,6 +282,7 @@ pnpm run format
 - **前端**：React 18 + TypeScript + Vite
 - **样式**：Tailwind CSS v4，带有类似 GitHub 的深色主题
 - **语法高亮**：Prism.js 带动态语言加载
+- **富预览**：Markdown 使用 react-markdown + remark-gfm，HTML 使用禁用脚本的 sandboxed iframe
 - **测试**：Vitest 用于单元测试，测试文件与源代码放在一起
 - **质量**：oxlint、oxfmt、lefthook 预提交钩子
 

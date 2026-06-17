@@ -212,7 +212,7 @@ Markdown files are rendered with full GFM (GitHub Flavored Markdown) support inc
 
 ### HTML Preview
 
-HTML files are rendered in a sandboxed iframe (`sandbox="allow-scripts"`) with no same-origin access for security. The iframe height auto-adjusts to fit the content via postMessage.
+HTML files are rendered in a sandboxed iframe without script execution or same-origin access for security.
 
 ## 🎨 Syntax Highlighting Languages
 
@@ -289,7 +289,7 @@ pnpm run format
 - **Frontend**: React 18 + TypeScript + Vite
 - **Styling**: Tailwind CSS v4 with GitHub-like dark theme
 - **Syntax Highlighting**: Prism.js with dynamic language loading
-- **Rich Preview**: react-markdown + remark-gfm for Markdown, sandboxed iframes for HTML
+- **Rich Preview**: react-markdown + remark-gfm for Markdown, script-disabled sandboxed iframes for HTML
 - **Testing**: Vitest for unit tests with co-located test files
 - **Quality**: oxlint, oxfmt, lefthook pre-commit hooks
 

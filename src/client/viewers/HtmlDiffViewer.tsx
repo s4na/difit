@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import type { MergedChunk } from '../hooks/useExpandedLines';
 
@@ -20,56 +20,16 @@ const buildAfterContent = (chunks: MergedChunk[]): string => {
   return lines.join('\n');
 };
 
-const IFRAME_HEIGHT_SCRIPT = `
-<script>
-(function() {
-  function postHeight() {
-    window.parent.postMessage(
-      { type: 'difit-iframe-height', height: document.documentElement.scrollHeight },
-      '*'
-    );
-  }
-  new MutationObserver(postHeight).observe(document.body, {
-    childList: true, subtree: true, attributes: true
-  });
-  window.addEventListener('load', postHeight);
-  postHeight();
-})();
-</script>`;
-
-const wrapHtmlForPreview = (html: string): string => `${html}${IFRAME_HEIGHT_SCRIPT}`;
-
-const HtmlIframePreview = ({ html }: { html: string }) => {
-  const iframeRef = useRef<HTMLIFrameElement>(null);
-  const wrappedHtml = useMemo(() => wrapHtmlForPreview(html), [html]);
-
-  useEffect(() => {
-    const handleMessage = (event: MessageEvent<unknown>) => {
-      const data = event.data as { type?: string; height?: unknown } | null;
-      if (!data || data.type !== 'difit-iframe-height') return;
-      const iframe = iframeRef.current;
-      if (!iframe) return;
-      const height = Number(data.height);
-      if (Number.isFinite(height) && height > 0) {
-        iframe.style.height = `${Math.max(height, 100)}px`;
-      }
-    };
-
-    window.addEventListener('message', handleMessage);
-    return () => window.removeEventListener('message', handleMessage);
-  }, []);
-
-  return (
-    <iframe
-      ref={iframeRef}
-      srcDoc={wrappedHtml}
-      sandbox="allow-scripts"
-      className="w-full border-0 bg-white rounded"
-      style={{ minHeight: '100px' }}
-      title="HTML Preview"
-    />
-  );
-};
+const HtmlIframePreview = ({ html }: { html: string }) => (
+  <iframe
+    srcDoc={html}
+    sandbox=""
+    referrerPolicy="no-referrer"
+    className="w-full border-0 bg-white rounded"
+    style={{ height: 'min(70vh, 720px)', minHeight: '320px' }}
+    title="HTML Preview"
+  />
+);
 
 export function HtmlDiffViewer(props: DiffViewerBodyProps) {
   const { file, baseCommitish, targetCommitish, mergedChunks } = props;

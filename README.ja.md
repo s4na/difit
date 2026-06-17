@@ -191,6 +191,22 @@ npx skills add s4na/difit
 
 コード編集後や自動レビュー時に、目的に応じた skill で difit サーバーを起動できます。
 
+## 👁️ リッチプレビュー（Markdown & HTML）
+
+`.md`、`.markdown`、`.html`、`.htm` ファイルでは、通常のコード diff に加えてリッチプレビューを利用できます。
+
+- **Diff**：通常のコード diff 表示（デフォルト）
+- **Diff Preview**：diff chunk から再構築した after 側コンテンツのレンダリングプレビュー
+- **Full Preview**：対象 commit の完全なファイルをレンダリングしたプレビュー
+
+### Markdown プレビュー
+
+Markdown ファイルは、テーブル、タスクリスト、取り消し線、シンタックスハイライト付きコードブロック、Mermaid 図を含む GFM（GitHub Flavored Markdown）としてレンダリングされます。
+
+### HTML プレビュー
+
+HTML ファイルは、セキュリティのため script 実行と same-origin access を許可しない sandboxed iframe でレンダリングされます。
+
 ## 🎨 シンタックスハイライト対応言語
 
 - **JavaScript/TypeScript**：`.js`, `.jsx`, `.ts`, `.tsx`
@@ -266,6 +282,7 @@ pnpm run format
 - **フロントエンド**：React 18 + TypeScript + Vite
 - **スタイリング**：GitHubライクなダークテーマを備えたTailwind CSS v4
 - **シンタックスハイライト**：動的言語ロードを備えたPrism.js
+- **リッチプレビュー**：Markdown は react-markdown + remark-gfm、HTML は script 無効の sandboxed iframe
 - **テスト**：同じ場所に配置されたテストファイルを使用したVitestユニットテスト
 - **品質**：oxlint、oxfmt、lefthookプリコミットフック
 
