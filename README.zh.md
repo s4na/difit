@@ -198,7 +198,7 @@ npx skills add s4na/difit
 对于 `.md`、`.markdown`、`.html` 和 `.htm` 文件，difit 除了标准代码 diff 外还提供富预览模式：
 
 - **Diff**：标准代码 diff 视图（默认）
-- **Diff Preview**：根据 diff chunk 重建 after 侧内容后的渲染预览
+- **Diff Preview / Rendered Preview**：根据 diff chunk 重建 after 侧内容后的渲染预览
 - **Full Preview**：来自 diff 相关 side 的完整文件渲染预览
 
 ### Markdown 预览

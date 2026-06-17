@@ -85,24 +85,15 @@ describe('HtmlDiffViewer', () => {
 
   it('renders with preview mode tabs', () => {
     renderViewer();
-    expect(screen.getByTitle('Code Diff')).toBeDefined();
-    expect(screen.getByTitle('Diff Preview')).toBeDefined();
+    expect(screen.getByRole('button', { name: 'Diff' })).toBeDefined();
+    expect(screen.getByRole('button', { name: 'Rendered Preview' })).toBeDefined();
   });
 
   it('defaults to diff mode', () => {
-    renderViewer();
-    const diffButton = screen.getByTitle('Code Diff');
-    expect(diffButton.className).toContain('text-github-text-primary');
-  });
-
-  it('switches to diff-preview mode on click', async () => {
-    const user = userEvent.setup();
-    renderViewer();
-
-    await user.click(screen.getByTitle('Diff Preview'));
-
-    const previewButton = screen.getByTitle('Diff Preview');
-    expect(previewButton.className).toContain('text-github-text-primary');
+    const { container } = renderViewer();
+    expect(container.querySelector('iframe')).toBeNull();
+    expect(screen.getByText('Hello')).toBeDefined();
+    expect(screen.getByText('World')).toBeDefined();
   });
 
   it('shows empty message when no HTML content', async () => {
@@ -111,11 +102,11 @@ describe('HtmlDiffViewer', () => {
       mergedChunks: makeMergedChunks([]),
     });
 
-    await user.click(screen.getByTitle('Diff Preview'));
+    await user.click(screen.getByRole('button', { name: 'Rendered Preview' }));
     expect(screen.getByText('No HTML content to preview.')).toBeDefined();
   });
 
-  it('renders script-disabled iframe in diff-preview mode', async () => {
+  it('renders script-disabled iframe after switching to rendered preview mode', async () => {
     const user = userEvent.setup();
     const { container } = render(
       <WordHighlightProvider>
@@ -123,7 +114,7 @@ describe('HtmlDiffViewer', () => {
       </WordHighlightProvider>,
     );
 
-    await user.click(screen.getByTitle('Diff Preview'));
+    await user.click(screen.getByRole('button', { name: 'Rendered Preview' }));
     const iframe = container.querySelector('iframe');
     expect(iframe).toBeDefined();
     expect(iframe?.getAttribute('sandbox')).toBe('');
@@ -143,7 +134,7 @@ describe('HtmlDiffViewer', () => {
     const user = userEvent.setup();
     const { container } = renderViewer();
 
-    const fullPreviewButton = await screen.findByTitle('Full Preview');
+    const fullPreviewButton = await screen.findByRole('button', { name: 'Full Preview' });
     await user.click(fullPreviewButton);
 
     await waitFor(() => {
@@ -164,6 +155,6 @@ describe('HtmlDiffViewer', () => {
     await waitFor(() => {
       expect(global.fetch).toHaveBeenCalledTimes(1);
     });
-    expect(screen.queryByTitle('Full Preview')).toBeNull();
+    expect(screen.queryByRole('button', { name: 'Full Preview' })).toBeNull();
   });
 });

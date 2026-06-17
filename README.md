@@ -203,7 +203,7 @@ After code edits or automated review, the agent can start the difit server with 
 For `.md`, `.markdown`, `.html`, and `.htm` files, difit provides rich preview modes in addition to the standard code diff:
 
 - **Diff**: Standard code diff view (default)
-- **Diff Preview**: Rendered preview of the after-side content reconstructed from the diff chunks
+- **Diff Preview / Rendered Preview**: Rendered preview of the after-side content reconstructed from the diff chunks
 - **Full Preview**: Complete rendered file from the relevant side of the diff
 
 ### Markdown Preview

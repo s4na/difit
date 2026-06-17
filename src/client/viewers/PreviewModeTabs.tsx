@@ -6,9 +6,15 @@ type PreviewModeTabsProps = {
   mode: PreviewMode;
   hasFullPreview: boolean;
   onModeChange: (mode: PreviewMode) => void;
+  diffPreviewLabel?: string;
 };
 
-export const PreviewModeTabs = ({ mode, hasFullPreview, onModeChange }: PreviewModeTabsProps) => (
+export const PreviewModeTabs = ({
+  mode,
+  hasFullPreview,
+  onModeChange,
+  diffPreviewLabel = 'Diff Preview',
+}: PreviewModeTabsProps) => (
   <div className="flex items-center gap-1.5">
     <button
       onClick={() => onModeChange('diff')}
@@ -29,10 +35,10 @@ export const PreviewModeTabs = ({ mode, hasFullPreview, onModeChange }: PreviewM
           ? 'text-github-text-primary'
           : 'text-github-text-secondary hover:text-github-text-primary'
       }`}
-      title="Diff Preview"
+      title={diffPreviewLabel}
     >
       <Eye size={14} />
-      Diff Preview
+      {diffPreviewLabel}
     </button>
     {hasFullPreview && (
       <button

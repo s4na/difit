@@ -198,7 +198,7 @@ npx skills add s4na/difit
 `.md`, `.markdown`, `.html`, `.htm` 파일에서는 일반 코드 diff 외에도 리치 미리보기 모드를 사용할 수 있습니다:
 
 - **Diff**: 기본 코드 diff 보기 (기본값)
-- **Diff Preview**: diff chunk에서 재구성한 after 측 콘텐츠의 렌더링 미리보기
+- **Diff Preview / Rendered Preview**: diff chunk에서 재구성한 after 측 콘텐츠의 렌더링 미리보기
 - **Full Preview**: diff의 관련 side에서 가져온 전체 파일 렌더링 미리보기
 
 ### Markdown 미리보기

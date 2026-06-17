@@ -141,7 +141,12 @@ export function HtmlDiffViewer(props: DiffViewerBodyProps) {
   return (
     <div className="bg-github-bg-primary">
       <div className="flex items-center justify-between border-b border-github-border px-4 py-2">
-        <PreviewModeTabs mode={mode} hasFullPreview={hasFullPreview} onModeChange={setMode} />
+        <PreviewModeTabs
+          mode={mode}
+          hasFullPreview={hasFullPreview}
+          onModeChange={setMode}
+          diffPreviewLabel="Rendered Preview"
+        />
       </div>
 
       {mode === 'diff' && <TextDiffViewer {...props} />}

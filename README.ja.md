@@ -198,7 +198,7 @@ npx skills add s4na/difit
 `.md`、`.markdown`、`.html`、`.htm` ファイルでは、通常のコード diff に加えてリッチプレビューを利用できます。
 
 - **Diff**：通常のコード diff 表示（デフォルト）
-- **Diff Preview**：diff chunk から再構築した after 側コンテンツのレンダリングプレビュー
+- **Diff Preview / Rendered Preview**：diff chunk から再構築した after 側コンテンツのレンダリングプレビュー
 - **Full Preview**：diff の該当 side から取得した完全なファイルのレンダリングプレビュー
 
 ### Markdown プレビュー
