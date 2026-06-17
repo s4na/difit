@@ -30,6 +30,8 @@ describe('htmlUtils', () => {
     it('handles edge cases', () => {
       expect(isHtmlFile('')).toBe(false);
       expect(isHtmlFile('file')).toBe(false);
+      expect(isHtmlFile('html')).toBe(false);
+      expect(isHtmlFile('path/to/html')).toBe(false);
       expect(isHtmlFile('file.')).toBe(false);
       expect(isHtmlFile('.html')).toBe(true);
       expect(isHtmlFile('path/to/deep.html')).toBe(true);
