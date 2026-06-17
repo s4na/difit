@@ -9,11 +9,9 @@ description: A skill for reviewing a specific diff and showing the findings as c
 
 This skill launches a requested git diff in a viewer that is easy for humans to read. At the same time, the agent can attach arbitrary comments via the `--comment` option.
 This comment mechanism is well suited for code review findings and code explanations.
-Before running commands, choose `<difit-command>` using the following rule:
+Before running commands, set `<difit-command>` to `npx github:s4na/difit`.
 
-- If `command -v difit` succeeds, use `difit`.
-- Otherwise, use `npx github:s4na/difit`.
-- If falling back to `npx github:s4na/difit` would require network access in a sandboxed environment without network permission, request escalated permissions and user approval before running it.
+If `npx github:s4na/difit` would require network access in a sandboxed environment without network permission, request escalated permissions and user approval before running it.
 
 ## Steps
 
