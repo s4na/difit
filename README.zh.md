@@ -10,25 +10,27 @@
 
 **difit** 是一个让你使用 GitHub 风格查看器查看和审查本地 git 差异的 CLI 工具。除了清晰的视觉效果外，评论还可以作为 AI 提示进行复制。AI 时代的本地代码审查工具！
 
+此 fork 基于 [yoshiko-pg/difit](https://github.com/yoshiko-pg/difit)，当前仓库为 `s4na/difit`。
+
 ## ⚡ 快速开始
 
 先试用一下
 
 ```bash
-npx difit  # 在 WebUI 中查看最新提交的差异
+npx github:s4na/difit  # 在 WebUI 中查看最新提交的差异
 ```
 
 安装后使用
 
 ```bash
-npm install -g difit
+npm install -g github:s4na/difit
 difit  # 在 WebUI 中查看最新提交的差异
 ```
 
 使其可供 AI 代理使用
 
 ```bash
-npx skills add yoshiko-pg/difit # 为代理添加 Skills
+npx skills add s4na/difit # 为代理添加 Skills
 ```
 
 安装后包含的主要 Skill：
@@ -181,7 +183,7 @@ src/components/Button.tsx:L42-L48   # 此行自动添加
 你可以通过以下命令安装这些 Skill，以便从 AI 代理中使用 difit：
 
 ```sh
-npx skills add yoshiko-pg/difit
+npx skills add s4na/difit
 ```
 
 安装后包含的主要 Skill：
@@ -190,6 +192,22 @@ npx skills add yoshiko-pg/difit
 - `difit-review`：审查特定 diff 或 PR，并启动一个已预载评论或说明的 difit
 
 在代码修改后或自动审查时，代理可以根据目的使用对应的 Skill 来启动 difit 服务器。
+
+## 👁️ 富预览（Markdown & HTML）
+
+对于 `.md`、`.markdown`、`.html` 和 `.htm` 文件，difit 除了标准代码 diff 外还提供富预览模式：
+
+- **Diff**：标准代码 diff 视图（默认）
+- **Diff Preview / Rendered Preview**：根据 diff chunk 重建 after 侧内容后的渲染预览
+- **Full Preview**：来自 diff 相关 side 的完整文件渲染预览
+
+### Markdown 预览
+
+Markdown 文件会以完整 GFM（GitHub Flavored Markdown）支持进行渲染，包括表格、任务列表、删除线、带语法高亮的代码块和 Mermaid 图。
+
+### HTML 预览
+
+HTML 文件会在 sandboxed iframe 中渲染；出于安全考虑，不允许脚本执行、same-origin access 或外部 subresource 加载。
 
 ## 🎨 语法高亮语言
 
@@ -263,9 +281,10 @@ pnpm run format
 - **CLI**：使用 Commander.js 进行参数解析，具有全面的验证
 - **后端**：Express 服务器配合 simple-git 进行差异处理
 - **GitHub 集成**：使用 GitHub CLI（`gh pr diff --patch`）获取 PR 补丁
-- **前端**：React 18 + TypeScript + Vite
+- **前端**：React 19 + TypeScript + Vite
 - **样式**：Tailwind CSS v4，带有类似 GitHub 的深色主题
 - **语法高亮**：Prism.js 带动态语言加载
+- **富预览**：Markdown 使用 react-markdown + remark-gfm，HTML 使用禁用脚本的 sandboxed iframe
 - **测试**：Vitest 用于单元测试，测试文件与源代码放在一起
 - **质量**：oxlint、oxfmt、lefthook 预提交钩子
 
@@ -277,4 +296,4 @@ pnpm run format
 
 ## 📄 许可证
 
-MIT
+MIT - Originally created by [yoshiko-pg](https://github.com/yoshiko-pg/difit)

@@ -10,25 +10,27 @@
 
 **difit**은 GitHub 스타일 뷰어로 로컬 git diff를 보고 검토할 수 있는 CLI 도구입니다. 깔끔한 시각적 효과와 함께 코멘트를 AI용 프롬프트로 복사할 수 있습니다. AI 시대의 로컬 코드 리뷰 도구!
 
+이 fork는 [yoshiko-pg/difit](https://github.com/yoshiko-pg/difit)을 기반으로 한 `s4na/difit`입니다.
+
 ## ⚡ 빠른 시작
 
 먼저 시도해 보세요
 
 ```bash
-npx difit  # WebUI에서 최신 커밋 diff 보기
+npx github:s4na/difit  # WebUI에서 최신 커밋 diff 보기
 ```
 
 설치하여 사용
 
 ```bash
-npm install -g difit
+npm install -g github:s4na/difit
 difit  # WebUI에서 최신 커밋 diff 보기
 ```
 
 AI 에이전트에서 사용할 수 있도록 설정
 
 ```bash
-npx skills add yoshiko-pg/difit # 에이전트에 Skill들 추가
+npx skills add s4na/difit # 에이전트에 Skill들 추가
 ```
 
 설치되는 주요 Skill:
@@ -181,7 +183,7 @@ src/components/Button.tsx:L42-L48   # 이 줄은 자동으로 추가됩니다
 AI 에이전트에서 difit을 사용하기 위한 Skill들은 아래 명령으로 설치할 수 있습니다:
 
 ```sh
-npx skills add yoshiko-pg/difit
+npx skills add s4na/difit
 ```
 
 설치되는 주요 Skill:
@@ -190,6 +192,22 @@ npx skills add yoshiko-pg/difit
 - `difit-review`: 특정 diff 또는 PR을 검토하고, 지적사항이나 설명을 코멘트로 미리 넣은 difit을 실행
 
 코드 수정 후나 자동 리뷰 시, 목적에 맞는 Skill로 difit 서버를 실행할 수 있습니다.
+
+## 👁️ 리치 미리보기 (Markdown & HTML)
+
+`.md`, `.markdown`, `.html`, `.htm` 파일에서는 일반 코드 diff 외에도 리치 미리보기 모드를 사용할 수 있습니다:
+
+- **Diff**: 기본 코드 diff 보기 (기본값)
+- **Diff Preview / Rendered Preview**: diff chunk에서 재구성한 after 측 콘텐츠의 렌더링 미리보기
+- **Full Preview**: diff의 관련 side에서 가져온 전체 파일 렌더링 미리보기
+
+### Markdown 미리보기
+
+Markdown 파일은 표, 작업 목록, 취소선, 구문 강조 코드 블록, Mermaid 다이어그램을 포함한 GFM(GitHub Flavored Markdown)으로 렌더링됩니다.
+
+### HTML 미리보기
+
+HTML 파일은 보안을 위해 script 실행, same-origin access, 외부 subresource 로드를 허용하지 않는 sandboxed iframe에서 렌더링됩니다.
 
 ## 🎨 구문 강조 언어
 
@@ -263,9 +281,10 @@ pnpm run format
 - **CLI**: 포괄적인 검증을 갖춘 Commander.js로 인수 구문 분석
 - **백엔드**: diff 처리를 위한 simple-git이 포함된 Express 서버
 - **GitHub 통합**: GitHub CLI(`gh pr diff --patch`) 기반 PR 패치 조회
-- **프론트엔드**: React 18 + TypeScript + Vite
+- **프론트엔드**: React 19 + TypeScript + Vite
 - **스타일링**: GitHub과 유사한 다크 테마를 갖춘 Tailwind CSS v4
 - **구문 강조**: 동적 언어 로딩을 갖춘 Prism.js
+- **리치 미리보기**: Markdown은 react-markdown + remark-gfm, HTML은 script가 비활성화된 sandboxed iframe
 - **테스트**: 동일 위치에 배치된 테스트 파일을 사용하는 Vitest 단위 테스트
 - **품질**: oxlint, oxfmt, lefthook 사전 커밋 훅
 
@@ -277,4 +296,4 @@ pnpm run format
 
 ## 📄 라이선스
 
-MIT
+MIT - Originally created by [yoshiko-pg](https://github.com/yoshiko-pg/difit)

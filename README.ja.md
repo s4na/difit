@@ -10,25 +10,27 @@
 
 **difit**は、ローカルのgit上にある差分をGitHub風のビューアで閲覧・レビューできるCLIツールです。見やすい表示に加え、コメントはAIへのプロンプトとしてコピーできます。AI時代のローカルコードレビューツール！
 
+この fork は [yoshiko-pg/difit](https://github.com/yoshiko-pg/difit) を基にした `s4na/difit` です。
+
 ## ⚡ クイックスタート
 
 まず試す
 
 ```bash
-npx difit  # 最新コミットのdiffをWebUIで表示
+npx github:s4na/difit  # 最新コミットのdiffをWebUIで表示
 ```
 
 インストールして使う
 
 ```bash
-npm install -g difit
+npm install -g github:s4na/difit
 difit  # 最新コミットのdiffをWebUIで表示
 ```
 
 AIエージェントから使えるようにする
 
 ```bash
-npx skills add yoshiko-pg/difit # エージェントにスキル群を追加
+npx skills add s4na/difit # エージェントにスキル群を追加
 ```
 
 インストールされる主な skill:
@@ -181,7 +183,7 @@ src/components/Button.tsx:L42-L48   # この行が自動的に追加されます
 AIエージェントから difit を使うための skill 群を以下でインストールできます。
 
 ```sh
-npx skills add yoshiko-pg/difit
+npx skills add s4na/difit
 ```
 
 インストールされる主な skill:
@@ -190,6 +192,22 @@ npx skills add yoshiko-pg/difit
 - `difit-review`: 特定の diff や PR をレビューし、指摘や解説をコメントとして事前投入した difit を起動する
 
 コード編集後や自動レビュー時に、目的に応じた skill で difit サーバーを起動できます。
+
+## 👁️ リッチプレビュー（Markdown & HTML）
+
+`.md`、`.markdown`、`.html`、`.htm` ファイルでは、通常のコード diff に加えてリッチプレビューを利用できます。
+
+- **Diff**：通常のコード diff 表示（デフォルト）
+- **Diff Preview / Rendered Preview**：diff chunk から再構築した after 側コンテンツのレンダリングプレビュー
+- **Full Preview**：diff の該当 side から取得した完全なファイルのレンダリングプレビュー
+
+### Markdown プレビュー
+
+Markdown ファイルは、テーブル、タスクリスト、取り消し線、シンタックスハイライト付きコードブロック、Mermaid 図を含む GFM（GitHub Flavored Markdown）としてレンダリングされます。
+
+### HTML プレビュー
+
+HTML ファイルは、セキュリティのため script 実行、same-origin access、外部 subresource 読み込みを許可しない sandboxed iframe でレンダリングされます。
 
 ## 🎨 シンタックスハイライト対応言語
 
@@ -263,9 +281,10 @@ pnpm run format
 - **CLI**：包括的なバリデーションを備えたCommander.jsでの引数解析
 - **バックエンド**：diff処理用のsimple-gitを備えたExpressサーバー
 - **GitHub統合**：GitHub CLI（`gh pr diff --patch`）によるPRパッチ取得
-- **フロントエンド**：React 18 + TypeScript + Vite
+- **フロントエンド**：React 19 + TypeScript + Vite
 - **スタイリング**：GitHubライクなダークテーマを備えたTailwind CSS v4
 - **シンタックスハイライト**：動的言語ロードを備えたPrism.js
+- **リッチプレビュー**：Markdown は react-markdown + remark-gfm、HTML は script 無効の sandboxed iframe
 - **テスト**：同じ場所に配置されたテストファイルを使用したVitestユニットテスト
 - **品質**：oxlint、oxfmt、lefthookプリコミットフック
 
@@ -277,4 +296,4 @@ pnpm run format
 
 ## 📄 ライセンス
 
-MIT
+MIT - Originally created by [yoshiko-pg](https://github.com/yoshiko-pg/difit)

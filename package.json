@@ -1,7 +1,7 @@
 {
-  "name": "difit",
-  "version": "5.0.2",
-  "description": "A lightweight command-line tool that spins up a local web server to display Git commit diffs in a GitHub-like Files changed view",
+  "name": "@s4na/difit",
+  "version": "5.1.0",
+  "description": "A lightweight command-line tool that spins up a local web server to display Git commit diffs in a GitHub-like Files changed view (fork with rich preview support)",
   "keywords": [
     "cli",
     "code-review",
@@ -13,15 +13,18 @@
     "review",
     "tailwind"
   ],
-  "homepage": "https://github.com/yoshiko-pg/difit",
+  "homepage": "https://github.com/s4na/difit",
   "bugs": {
-    "url": "https://github.com/yoshiko-pg/difit/issues"
+    "url": "https://github.com/s4na/difit/issues"
   },
   "license": "MIT",
-  "author": "yoshiko-pg",
+  "author": "s4na",
+  "contributors": [
+    "yoshiko-pg (original author)"
+  ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/yoshiko-pg/difit.git"
+    "url": "https://github.com/s4na/difit.git"
   },
   "bin": {
     "difit": "./dist/cli/index.js"
@@ -37,14 +40,14 @@
   },
   "scripts": {
     "dev": "node scripts/dev.js",
-    "dev:site": "pnpm run build:cli && node scripts/export-site-data.js && vite --config vite.config.site.ts --open /",
+    "dev:site": "npm run build:cli && node scripts/export-site-data.js && vite --config vite.config.site.ts --open /",
     "dev:cli": "tsc --project tsconfig.cli.json && NODE_ENV=development node dist/cli/index.js",
-    "build": "pnpm run build:cli && vite build",
-    "build:site": "pnpm run build:cli && GITHUB_PAGES=true vite build --config vite.config.site.ts",
+    "build": "npm run build:cli && vite build",
+    "build:site": "npm run build:cli && GITHUB_PAGES=true vite build --config vite.config.site.ts",
     "build:cli": "tsc --project tsconfig.cli.json",
     "export:site-data": "node scripts/export-site-data.js",
     "package:vscode": "pnpm -C packages/vscode run package",
-    "start": "pnpm run build && node dist/cli/index.js",
+    "start": "npm run build && node dist/cli/index.js",
     "check": "oxlint . --type-aware --type-check --deny-warnings --report-unused-disable-directives",
     "check:fix": "oxlint . --type-aware --type-check --deny-warnings --report-unused-disable-directives --fix",
     "format": "oxfmt --check .",
@@ -52,8 +55,8 @@
     "knip": "knip --use-tsconfig-files",
     "test": "vitest run",
     "test:watch": "vitest",
-    "prepare": "lefthook install",
-    "prepublishOnly": "NODE_ENV=production pnpm run build",
+    "prepare": "node scripts/prepare.js",
+    "prepublishOnly": "NODE_ENV=production npm run build",
     "perf": "node scripts/measure-performance.js",
     "perf:small": "node scripts/measure-performance.js --size small",
     "perf:medium": "node scripts/measure-performance.js --size medium",
@@ -70,6 +73,7 @@
     "lucide-react": "^1.0.0",
     "mermaid": "^11.13.0",
     "open": "^11.0.0",
+    "parse5": "7.3.0",
     "prism-react-renderer": "^2.4.1",
     "prismjs": "^1.30.0",
     "react": "^19.1.0",

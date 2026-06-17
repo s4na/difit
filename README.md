@@ -3,13 +3,14 @@
 </h1>
 
 <p align="center">
-  <a href="https://www.npmjs.com/package/difit"><img src="https://img.shields.io/npm/v/difit.svg" alt="npm version"></a>
-  <a href="https://github.com/yoshiko-pg/difit/actions/workflows/pr.yml"><img src="https://github.com/yoshiko-pg/difit/actions/workflows/pr.yml/badge.svg" alt="CI"></a>
+  <a href="https://github.com/s4na/difit/actions/workflows/pr.yml"><img src="https://github.com/s4na/difit/actions/workflows/pr.yml/badge.svg" alt="CI"></a>
 </p>
 
 <p align="center">
   English | <a href="./README.ja.md">日本語</a> | <a href="./README.zh.md">简体中文</a> | <a href="./README.ko.md">한국어</a>
 </p>
+
+> **Fork of [yoshiko-pg/difit](https://github.com/yoshiko-pg/difit)** with rich preview support for Markdown and HTML files.
 
 ![difit screenshot](docs/images/screenshot.png)
 
@@ -20,20 +21,20 @@
 Try it first
 
 ```bash
-npx difit  # View the latest commit diff in WebUI
+npx github:s4na/difit  # View the latest commit diff in WebUI
 ```
 
 Install and use
 
 ```bash
-npm install -g difit
+npm install -g github:s4na/difit
 difit  # View the latest commit diff in WebUI
 ```
 
 Enable use from AI agents
 
 ```bash
-npx skills add yoshiko-pg/difit # Add the Skills to your agent
+npx skills add s4na/difit # Add the Skills to your agent
 ```
 
 Installed skills include:
@@ -186,7 +187,7 @@ This section is unnecessary
 You can install the following Skills to work with difit from AI agents.
 
 ```sh
-npx skills add yoshiko-pg/difit
+npx skills add s4na/difit
 ```
 
 Installed skills include:
@@ -195,6 +196,22 @@ Installed skills include:
 - `difit-review`: review a specific diff or PR and launch difit with findings or explanations preloaded as comments
 
 After code edits or automated review, the agent can start the difit server with the appropriate skill.
+
+## 👁️ Rich Preview (Markdown & HTML)
+
+For `.md`, `.markdown`, `.html`, and `.htm` files, difit provides rich preview modes in addition to the standard code diff:
+
+- **Diff**: Standard code diff view (default)
+- **Diff Preview / Rendered Preview**: Rendered preview of the after-side content reconstructed from the diff chunks
+- **Full Preview**: Complete rendered file from the relevant side of the diff
+
+### Markdown Preview
+
+Markdown files are rendered with full GFM (GitHub Flavored Markdown) support including tables, task lists, strikethrough, code blocks with syntax highlighting, and Mermaid diagrams.
+
+### HTML Preview
+
+HTML files are rendered in a sandboxed iframe without script execution, same-origin access, or external subresource loading for security.
 
 ## 🎨 Syntax Highlighting Languages
 
@@ -268,9 +285,10 @@ pnpm run format
 - **CLI**: Commander.js for argument parsing with comprehensive validation
 - **Backend**: Express server with simple-git for diff processing
 - **GitHub Integration**: GitHub CLI (`gh pr diff --patch`) for PR patch retrieval
-- **Frontend**: React 18 + TypeScript + Vite
+- **Frontend**: React 19 + TypeScript + Vite
 - **Styling**: Tailwind CSS v4 with GitHub-like dark theme
 - **Syntax Highlighting**: Prism.js with dynamic language loading
+- **Rich Preview**: react-markdown + remark-gfm for Markdown, script-disabled sandboxed iframes for HTML
 - **Testing**: Vitest for unit tests with co-located test files
 - **Quality**: oxlint, oxfmt, lefthook pre-commit hooks
 
@@ -282,4 +300,4 @@ pnpm run format
 
 ## 📄 License
 
-MIT
+MIT - Originally created by [yoshiko-pg](https://github.com/yoshiko-pg/difit)

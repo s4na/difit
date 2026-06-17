@@ -9,11 +9,11 @@ description: A skill for reviewing a specific diff and showing the findings as c
 
 This skill launches a requested git diff in a viewer that is easy for humans to read. At the same time, the agent can attach arbitrary comments via the `--comment` option.
 This comment mechanism is well suited for code review findings and code explanations.
-Before running commands, choose `<difit-command>` using the following rule:
+Before running commands, tell the user that `npx github:s4na/difit` installs from GitHub and may run package lifecycle scripts while preparing the CLI.
+Ask for explicit approval unless the user has already approved this GitHub npx command in the current session.
+After approval, set `<difit-command>` to `npx github:s4na/difit`.
 
-- If `command -v difit` succeeds, use `difit`.
-- Otherwise, use `npx difit`.
-- If falling back to `npx difit` would require network access in a sandboxed environment without network permission, request escalated permissions and user approval before running it.
+If `npx github:s4na/difit` would require network access in a sandboxed environment without network permission, request escalated permissions and user approval before running it.
 
 ## Steps
 
@@ -37,7 +37,7 @@ The detailed procedure is as follows.
 
 - **difit launch options**
   - Use `<difit-command> <target> [compare-with]` to specify the target diff.
-  - For uncommitted changes use `<difit-command> .`, for working tree changes use `<difit-command> working`, and for staged changes use `<difit-command> staging`.
+  - For uncommitted changes use `<difit-command> .`, for working tree changes use `<difit-command> working`, and for staged changes use `<difit-command> staged`.
   - For stdin input, use a form such as `diff -u file1.txt file2.txt | <difit-command>`.
 - **Comment arguments**
   - Use `type: "thread"` for each comment.
