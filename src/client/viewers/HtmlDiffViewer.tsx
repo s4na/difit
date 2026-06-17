@@ -1,4 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
+import { defaultTreeAdapter, html, parse, serialize } from 'parse5';
+import type { DefaultTreeAdapterTypes } from 'parse5';
 
 import type { MergedChunk } from '../hooks/useExpandedLines';
 
@@ -20,15 +22,52 @@ const buildAfterContent = (chunks: MergedChunk[]): string => {
   return lines.join('\n');
 };
 
-const PREVIEW_CSP =
-  `<meta http-equiv="Content-Security-Policy" ` +
-  `content="default-src 'none'; style-src 'unsafe-inline'; img-src data: blob:;">`;
+const PREVIEW_CSP_CONTENT = "default-src 'none'; style-src 'unsafe-inline'; img-src data: blob:;";
+const LEADING_DOCTYPE_TRIVIA_PATTERN = /^\uFEFF?\s*(?=<!doctype\s)/i;
+
+const createPreviewCspMeta = () =>
+  defaultTreeAdapter.createElement('meta', html.NS.HTML, [
+    { name: 'http-equiv', value: 'Content-Security-Policy' },
+    { name: 'content', value: PREVIEW_CSP_CONTENT },
+  ]);
+
+const isElementNode = (
+  node: DefaultTreeAdapterTypes.ChildNode,
+): node is DefaultTreeAdapterTypes.Element => defaultTreeAdapter.isElementNode(node);
+
+const findDirectChildElement = (
+  parent: DefaultTreeAdapterTypes.ParentNode,
+  tagName: string,
+): DefaultTreeAdapterTypes.Element | undefined =>
+  parent.childNodes.find(
+    (node): node is DefaultTreeAdapterTypes.Element =>
+      isElementNode(node) && node.tagName === tagName,
+  );
+
+const prependChild = (
+  parent: DefaultTreeAdapterTypes.ParentNode,
+  child: DefaultTreeAdapterTypes.ChildNode,
+) => {
+  const firstChild = parent.childNodes[0];
+  if (firstChild) {
+    defaultTreeAdapter.insertBefore(parent, child, firstChild);
+  } else {
+    defaultTreeAdapter.appendChild(parent, child);
+  }
+};
+
+const findDocumentHead = (document: DefaultTreeAdapterTypes.Document) => {
+  const htmlElement = findDirectChildElement(document, 'html');
+  return htmlElement ? findDirectChildElement(htmlElement, 'head') : undefined;
+};
 
 const wrapHtmlForPreview = (html: string): string => {
-  if (/<head[\s>]/i.test(html)) {
-    return html.replace(/<head([^>]*)>/i, `<head$1>${PREVIEW_CSP}`);
+  const document = parse(html.replace(LEADING_DOCTYPE_TRIVIA_PATTERN, ''));
+  const head = findDocumentHead(document);
+  if (head) {
+    prependChild(head, createPreviewCspMeta());
   }
-  return `${PREVIEW_CSP}${html}`;
+  return serialize(document);
 };
 
 const HtmlIframePreview = ({ html }: { html: string }) => (

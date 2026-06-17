@@ -73,6 +73,26 @@ const expectPreviewCsp = (srcdoc: string | null | undefined) => {
   expect(srcdoc).toContain('img-src data: blob:');
 };
 
+const expectCspInDocumentHead = (
+  srcdoc: string | null | undefined,
+  options: { hasDoctype?: boolean } = {},
+) => {
+  const normalizedSrcdoc = srcdoc?.toLowerCase() ?? '';
+  if (options.hasDoctype) {
+    expect(normalizedSrcdoc.startsWith('<!doctype html>')).toBe(true);
+  }
+  const htmlIndex = normalizedSrcdoc.indexOf('<html');
+  const headIndex = normalizedSrcdoc.indexOf('<head');
+  const cspIndex = normalizedSrcdoc.indexOf('content-security-policy');
+  const headEndIndex = normalizedSrcdoc.indexOf('</head>');
+  const bodyIndex = normalizedSrcdoc.indexOf('<body');
+  expect(htmlIndex).toBeGreaterThanOrEqual(options.hasDoctype ? '<!doctype html>'.length : 0);
+  expect(headIndex).toBeGreaterThan(htmlIndex);
+  expect(cspIndex).toBeGreaterThan(headIndex);
+  expect(headEndIndex).toBeGreaterThan(cspIndex);
+  expect(bodyIndex).toBeGreaterThan(headEndIndex);
+};
+
 describe('HtmlDiffViewer', () => {
   beforeEach(() => {
     vi.clearAllMocks();
@@ -148,6 +168,218 @@ describe('HtmlDiffViewer', () => {
     });
     expect(global.fetch).toHaveBeenCalledWith('/api/blob/index.html?ref=def456');
     expect(global.fetch).toHaveBeenCalledTimes(1);
+  });
+
+  it('preserves doctype before injected CSP when previewing HTML without head', async () => {
+    const fullHtml = '<!doctype html><html><body>Full HTML</body></html>';
+    (global.fetch as any).mockResolvedValue({
+      ok: true,
+      text: async () => fullHtml,
+    });
+    const user = userEvent.setup();
+    const { container } = renderViewer();
+
+    const fullPreviewButton = await screen.findByRole('button', { name: 'Full Preview' });
+    await user.click(fullPreviewButton);
+
+    await waitFor(() => {
+      const srcdoc = container.querySelector('iframe')?.getAttribute('srcdoc');
+      expectCspInDocumentHead(srcdoc, { hasDoctype: true });
+      expect(srcdoc).toContain('<body>Full HTML</body>');
+      expectPreviewCsp(srcdoc);
+    });
+  });
+
+  it('uses the parsed document head after leading comments when previewing full HTML', async () => {
+    const fullHtml =
+      '<!doctype html><!-- build --><html><head><title>Full</title></head><body>Full HTML</body></html>';
+    (global.fetch as any).mockResolvedValue({
+      ok: true,
+      text: async () => fullHtml,
+    });
+    const user = userEvent.setup();
+    const { container } = renderViewer();
+
+    const fullPreviewButton = await screen.findByRole('button', { name: 'Full Preview' });
+    await user.click(fullPreviewButton);
+
+    await waitFor(() => {
+      const srcdoc = container.querySelector('iframe')?.getAttribute('srcdoc');
+      expectCspInDocumentHead(srcdoc, { hasDoctype: true });
+      expect(srcdoc).toContain('<title>Full</title>');
+      expect(srcdoc).toContain('<body>Full HTML</body>');
+      expectPreviewCsp(srcdoc);
+    });
+  });
+
+  it('ignores head tags nested inside body content when injecting CSP', async () => {
+    const fullHtml =
+      '<!doctype html><html><body><template><head><title>Nested</title></head></template>Full HTML</body></html>';
+    (global.fetch as any).mockResolvedValue({
+      ok: true,
+      text: async () => fullHtml,
+    });
+    const user = userEvent.setup();
+    const { container } = renderViewer();
+
+    const fullPreviewButton = await screen.findByRole('button', { name: 'Full Preview' });
+    await user.click(fullPreviewButton);
+
+    await waitFor(() => {
+      const srcdoc = container.querySelector('iframe')?.getAttribute('srcdoc');
+      expectCspInDocumentHead(srcdoc, { hasDoctype: true });
+      expect(srcdoc).toContain('<body><template>');
+      expectPreviewCsp(srcdoc);
+    });
+  });
+
+  it('preserves doctype before injected CSP when previewing a doctype fragment', async () => {
+    const fullHtml = '<!doctype html><p>Full HTML</p>';
+    (global.fetch as any).mockResolvedValue({
+      ok: true,
+      text: async () => fullHtml,
+    });
+    const user = userEvent.setup();
+    const { container } = renderViewer();
+
+    const fullPreviewButton = await screen.findByRole('button', { name: 'Full Preview' });
+    await user.click(fullPreviewButton);
+
+    await waitFor(() => {
+      const srcdoc = container.querySelector('iframe')?.getAttribute('srcdoc');
+      expectCspInDocumentHead(srcdoc, { hasDoctype: true });
+      expect(srcdoc).toContain('<p>Full HTML</p>');
+      expectPreviewCsp(srcdoc);
+    });
+  });
+
+  it('preserves doctype before injected CSP when leading trivia precedes doctype', async () => {
+    const fullHtml = '\uFEFF\n<!doctype html><html><body>Full HTML</body></html>';
+    (global.fetch as any).mockResolvedValue({
+      ok: true,
+      text: async () => fullHtml,
+    });
+    const user = userEvent.setup();
+    const { container } = renderViewer();
+
+    const fullPreviewButton = await screen.findByRole('button', { name: 'Full Preview' });
+    await user.click(fullPreviewButton);
+
+    await waitFor(() => {
+      const srcdoc = container.querySelector('iframe')?.getAttribute('srcdoc');
+      expectCspInDocumentHead(srcdoc, { hasDoctype: true });
+      expect(srcdoc).toContain('<body>Full HTML</body>');
+      expectPreviewCsp(srcdoc);
+    });
+  });
+
+  it('does not treat doctype text inside a fragment as the document doctype', async () => {
+    const fullHtml = '<!-- <!doctype html> --><p>Full HTML</p>';
+    (global.fetch as any).mockResolvedValue({
+      ok: true,
+      text: async () => fullHtml,
+    });
+    const user = userEvent.setup();
+    const { container } = renderViewer();
+
+    const fullPreviewButton = await screen.findByRole('button', { name: 'Full Preview' });
+    await user.click(fullPreviewButton);
+
+    await waitFor(() => {
+      const srcdoc = container.querySelector('iframe')?.getAttribute('srcdoc');
+      expectCspInDocumentHead(srcdoc);
+      expect(srcdoc?.toLowerCase().startsWith('<!doctype html>')).toBe(false);
+      expect(srcdoc).toContain('<p>Full HTML</p>');
+      expectPreviewCsp(srcdoc);
+    });
+  });
+
+  it('does not treat header as a document head tag', async () => {
+    const fullHtml = '<header><img src="https://example.com/logo.png"></header>';
+    (global.fetch as any).mockResolvedValue({
+      ok: true,
+      text: async () => fullHtml,
+    });
+    const user = userEvent.setup();
+    const { container } = renderViewer();
+
+    const fullPreviewButton = await screen.findByRole('button', { name: 'Full Preview' });
+    await user.click(fullPreviewButton);
+
+    await waitFor(() => {
+      const srcdoc = container.querySelector('iframe')?.getAttribute('srcdoc');
+      expectCspInDocumentHead(srcdoc);
+      const cspIndex = srcdoc?.indexOf('Content-Security-Policy') ?? -1;
+      const headerIndex = srcdoc?.indexOf('<header>') ?? -1;
+      expect(headerIndex).toBeGreaterThan(cspIndex);
+      expect(srcdoc).toContain('<header><img src="https://example.com/logo.png"></header>');
+      expectPreviewCsp(srcdoc);
+    });
+  });
+
+  it('does not treat custom elements prefixed with html as document html tags', async () => {
+    const fullHtml = '<html-preview><p>Full HTML</p></html-preview>';
+    (global.fetch as any).mockResolvedValue({
+      ok: true,
+      text: async () => fullHtml,
+    });
+    const user = userEvent.setup();
+    const { container } = renderViewer();
+
+    const fullPreviewButton = await screen.findByRole('button', { name: 'Full Preview' });
+    await user.click(fullPreviewButton);
+
+    await waitFor(() => {
+      const srcdoc = container.querySelector('iframe')?.getAttribute('srcdoc');
+      expectCspInDocumentHead(srcdoc);
+      const cspIndex = srcdoc?.indexOf('Content-Security-Policy') ?? -1;
+      const customElementIndex = srcdoc?.indexOf('<html-preview>') ?? -1;
+      expect(customElementIndex).toBeGreaterThan(cspIndex);
+      expect(srcdoc).toContain('<html-preview><p>Full HTML</p></html-preview>');
+      expectPreviewCsp(srcdoc);
+    });
+  });
+
+  it('does not use a head tag inside template content as the document head', async () => {
+    const fullHtml =
+      '<!doctype html><html><template><head><title>Nested</title></head></template><body><img src="https://example.com/x.png"></body></html>';
+    (global.fetch as any).mockResolvedValue({
+      ok: true,
+      text: async () => fullHtml,
+    });
+    const user = userEvent.setup();
+    const { container } = renderViewer();
+
+    const fullPreviewButton = await screen.findByRole('button', { name: 'Full Preview' });
+    await user.click(fullPreviewButton);
+
+    await waitFor(() => {
+      const srcdoc = container.querySelector('iframe')?.getAttribute('srcdoc');
+      expectCspInDocumentHead(srcdoc, { hasDoctype: true });
+      expect(srcdoc).toContain('<img src="https://example.com/x.png">');
+      expectPreviewCsp(srcdoc);
+    });
+  });
+
+  it('handles quoted attribute values containing angle brackets before the body', async () => {
+    const fullHtml = '<!doctype html><html data-x=">"><body>Full HTML</body></html>';
+    (global.fetch as any).mockResolvedValue({
+      ok: true,
+      text: async () => fullHtml,
+    });
+    const user = userEvent.setup();
+    const { container } = renderViewer();
+
+    const fullPreviewButton = await screen.findByRole('button', { name: 'Full Preview' });
+    await user.click(fullPreviewButton);
+
+    await waitFor(() => {
+      const srcdoc = container.querySelector('iframe')?.getAttribute('srcdoc');
+      expectCspInDocumentHead(srcdoc, { hasDoctype: true });
+      expect(srcdoc).toContain('<html data-x=">">');
+      expect(srcdoc).toContain('<body>Full HTML</body>');
+      expectPreviewCsp(srcdoc);
+    });
   });
 
   it('does not show full preview tab when content fails to load', async () => {
