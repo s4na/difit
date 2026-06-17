@@ -281,7 +281,7 @@ pnpm run format
 - **CLI**：包括的なバリデーションを備えたCommander.jsでの引数解析
 - **バックエンド**：diff処理用のsimple-gitを備えたExpressサーバー
 - **GitHub統合**：GitHub CLI（`gh pr diff --patch`）によるPRパッチ取得
-- **フロントエンド**：React 18 + TypeScript + Vite
+- **フロントエンド**：React 19 + TypeScript + Vite
 - **スタイリング**：GitHubライクなダークテーマを備えたTailwind CSS v4
 - **シンタックスハイライト**：動的言語ロードを備えたPrism.js
 - **リッチプレビュー**：Markdown は react-markdown + remark-gfm、HTML は script 無効の sandboxed iframe

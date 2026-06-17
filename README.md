@@ -286,7 +286,7 @@ pnpm run format
 - **CLI**: Commander.js for argument parsing with comprehensive validation
 - **Backend**: Express server with simple-git for diff processing
 - **GitHub Integration**: GitHub CLI (`gh pr diff --patch`) for PR patch retrieval
-- **Frontend**: React 18 + TypeScript + Vite
+- **Frontend**: React 19 + TypeScript + Vite
 - **Styling**: Tailwind CSS v4 with GitHub-like dark theme
 - **Syntax Highlighting**: Prism.js with dynamic language loading
 - **Rich Preview**: react-markdown + remark-gfm for Markdown, script-disabled sandboxed iframes for HTML

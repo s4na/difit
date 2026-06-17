@@ -281,7 +281,7 @@ pnpm run format
 - **CLI**：使用 Commander.js 进行参数解析，具有全面的验证
 - **后端**：Express 服务器配合 simple-git 进行差异处理
 - **GitHub 集成**：使用 GitHub CLI（`gh pr diff --patch`）获取 PR 补丁
-- **前端**：React 18 + TypeScript + Vite
+- **前端**：React 19 + TypeScript + Vite
 - **样式**：Tailwind CSS v4，带有类似 GitHub 的深色主题
 - **语法高亮**：Prism.js 带动态语言加载
 - **富预览**：Markdown 使用 react-markdown + remark-gfm，HTML 使用禁用脚本的 sandboxed iframe

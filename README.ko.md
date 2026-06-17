@@ -281,7 +281,7 @@ pnpm run format
 - **CLI**: 포괄적인 검증을 갖춘 Commander.js로 인수 구문 분석
 - **백엔드**: diff 처리를 위한 simple-git이 포함된 Express 서버
 - **GitHub 통합**: GitHub CLI(`gh pr diff --patch`) 기반 PR 패치 조회
-- **프론트엔드**: React 18 + TypeScript + Vite
+- **프론트엔드**: React 19 + TypeScript + Vite
 - **스타일링**: GitHub과 유사한 다크 테마를 갖춘 Tailwind CSS v4
 - **구문 강조**: 동적 언어 로딩을 갖춘 Prism.js
 - **리치 미리보기**: Markdown은 react-markdown + remark-gfm, HTML은 script가 비활성화된 sandboxed iframe
