@@ -12,8 +12,8 @@ This comment mechanism is well suited for code review findings and code explanat
 Before running commands, choose `<difit-command>` using the following rule:
 
 - If `command -v difit` succeeds, use `difit`.
-- Otherwise, use `npx difit`.
-- If falling back to `npx difit` would require network access in a sandboxed environment without network permission, request escalated permissions and user approval before running it.
+- Otherwise, use `npx github:s4na/difit`.
+- If falling back to `npx github:s4na/difit` would require network access in a sandboxed environment without network permission, request escalated permissions and user approval before running it.
 
 ## Steps
 

@@ -12,7 +12,7 @@ if (existsSync(join(process.cwd(), '.git'))) {
   try {
     run(command('lefthook'), ['install']);
   } catch {
-    // GitHub installs do not need local hooks; keep preparing the package.
+    // Hook installation should not block package preparation.
   }
 }
 
