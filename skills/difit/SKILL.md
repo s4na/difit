@@ -8,7 +8,9 @@ description: Ask the user for a code review through difit after code changes.
 ## Overview
 
 This skill requests a code review from the user using difit.
-Before running commands, set `<difit-command>` to `npx github:s4na/difit`.
+Before running commands, tell the user that `npx github:s4na/difit` installs from GitHub and may run package lifecycle scripts while preparing the CLI.
+Ask for explicit approval unless the user has already approved this GitHub npx command in the current session.
+After approval, set `<difit-command>` to `npx github:s4na/difit`.
 
 If `npx github:s4na/difit` would require network access in a sandboxed environment without network permission, request escalated permissions and user approval before running it.
 
